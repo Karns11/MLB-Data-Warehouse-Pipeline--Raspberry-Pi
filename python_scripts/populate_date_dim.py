@@ -52,6 +52,7 @@
 import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
+import os
 
 # Generate date range
 dates = pd.date_range(start="1900-01-01", end="2100-12-31", freq="D")
@@ -106,6 +107,11 @@ df["unix_timestamp"] = df["as_of_date"].astype(np.int64) // 10**9
 df["julian_date"] = df["as_of_date"].apply(lambda x: x.to_julian_date())
 df["created_at"] = pd.Timestamp.now()
 
+db_user = os.getenv("MY_PG_USER")
+db_pass = os.getenv("MY_PG_PASSWORD")
+db_host = os.getenv("MY_PG_HOST")
+db_port = os.getenv("MY_PG_PORT")
+db_name = os.getenv("MY_PG_DB")
 
-engine = create_engine("postgresql+psycopg2://root:root@localhost:5432/baseballr_db") #my_postgres as host if running in container
+engine = create_engine(f"postgresql+psycopg2://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}")
 df.to_sql("dim_date", engine, index=False, if_exists="append", method='multi', schema='warehouse')

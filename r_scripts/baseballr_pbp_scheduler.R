@@ -20,11 +20,11 @@ passed_processdate <- as.Date(args[1])
 cat("passed processdate: ", as.character(passed_processdate), "\n")
 
 
-pg_host <- "my_postgres"    #my_postgres
-pg_port <- 5432
-pg_user <- "root"
-pg_password <- "root"
-pg_db <- "baseballr_db"
+pg_host <- Sys.getenv("MY_PG_HOST")
+pg_port <- Sys.getenv("MY_PG_PORT")
+pg_user <- Sys.getenv("MY_PG_USER")
+pg_password <- Sys.getenv("MY_PG_PASSWORD")
+pg_db <- Sys.getenv("MY_PG_DB")
 
 # Connect to PostgreSQL
 con <- dbConnect(
