@@ -32,6 +32,8 @@ x-airflow-common: &airflow-common
     MY_PG_HOST: "${MY_PG_HOST}"
     MY_PG_PORT: "${MY_PG_PORT}"
     MY_PG_DB: "${MY_PG_DB}"
+    AIRFLOW_PG_USER: "${AIRFLOW_PG_USER}"
+    AIRFLOW_PG_PASSWORD: "${AIRFLOW_PG_PASSWORD}"
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
@@ -51,8 +53,8 @@ services:
   postgres:
     image: postgres:13
     environment:
-      POSTGRES_USER: airflow
-      POSTGRES_PASSWORD: airflow
+      POSTGRES_USER: "${AIRFLOW_PG_USER}"
+      POSTGRES_PASSWORD: "${AIRFLOW_PG_PASSWORD}"
       POSTGRES_DB: airflow
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
