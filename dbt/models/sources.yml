@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: baseballr_db
+    database: baseballr_db # Optional if it's the same as your dbt profile
+    schema: raw
+    tables:
+      - name: mlb_pbp_data
+      - name: mlb_people_data

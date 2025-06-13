@@ -1,0 +1,7 @@
+.env
+**/logs/
+**/project-db-data-postgres15/
+**/project-db-data/
+**/dbt/dbt_packages/
+**/dbt/target/
+**/dbt/logs/

@@ -1,0 +1,12 @@
+baseballr_data_dbt_project:
+  outputs:
+    dev:
+      dbname: baseballr_db
+      host: my_postgres # localhost
+      pass: root
+      port: 5432
+      schema: raw
+      threads: 1
+      type: postgres
+      user: root
+  target: dev
