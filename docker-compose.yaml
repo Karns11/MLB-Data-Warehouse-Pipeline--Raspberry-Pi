@@ -34,6 +34,11 @@ x-airflow-common: &airflow-common
     MY_PG_DB: "${MY_PG_DB}"
     AIRFLOW_PG_USER: "${AIRFLOW_PG_USER}"
     AIRFLOW_PG_PASSWORD: "${AIRFLOW_PG_PASSWORD}"
+    X_API_KEY: "${X_API_KEY}"
+    X_API_KEY_SECRET: "${X_API_KEY_SECRET}"
+    X_ACCESS_TOKEN: "${X_ACCESS_TOKEN}"
+    X_ACCESS_TOKEN_SECRET: "${X_ACCESS_TOKEN_SECRET}"
+
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs

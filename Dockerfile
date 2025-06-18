@@ -18,7 +18,7 @@ COPY requirements.txt .
 
 USER airflow
 
-RUN pip install dbt dbt-postgres
+RUN pip install dbt dbt-postgres tweepy
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir pandas sqlalchemy nfl_data_py psycopg2-binary
 USER root
