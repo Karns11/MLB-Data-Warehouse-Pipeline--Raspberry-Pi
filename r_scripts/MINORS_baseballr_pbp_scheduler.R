@@ -159,7 +159,7 @@ all_player_dim_df_list <- list()
 
 for (current_date in date_sequence) {
 
-  print(paste("Starting iteration for date:", as.character(current_date)))
+  print(paste("Starting iteration for date:", as.character(as.Date(current_date, origin = "1970-01-01"))))
 
   current_date <- as.Date(current_date, origin = "1970-01-01")
 
@@ -274,7 +274,13 @@ for (current_date in date_sequence) {
     "pitch_hand_code", "pitch_hand_description"
   )
 
-  mlb_people_result_df <- mlb_people(person_ids  = players_list_df$player_id)
+  player_id_chunks <- split(players_list_df$player_id, ceiling(seq_along(players_list_df$player_id) / 100))
+  
+  # Safely fetch people data in chunks
+  mlb_people_result_df <- map_dfr(player_id_chunks, function(chunk) {
+    Sys.sleep(0.01)  # be nice to the API
+    baseballr::mlb_people(person_ids = chunk)
+  })
 
   mlb_people_result_df <- mlb_people_result_df[, mlb_people_column_names] # nolint
 

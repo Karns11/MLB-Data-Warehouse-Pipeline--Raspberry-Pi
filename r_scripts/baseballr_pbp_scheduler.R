@@ -160,7 +160,7 @@ all_player_dim_df_list <- list()
 
 for (current_date in date_sequence) {
 
-  print(paste("Starting iteration for date:", as.character(current_date)))
+  print(paste("Starting iteration for date:", as.character(as.Date(current_date, origin = "1970-01-01"))))
 
   current_date <- as.Date(current_date, origin = "1970-01-01")
 
