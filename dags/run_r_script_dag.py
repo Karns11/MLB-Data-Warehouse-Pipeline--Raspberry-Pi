@@ -610,6 +610,6 @@ for date in date_range:
     if previous_task:
         previous_task >> run_r_script
 
-    previous_task = run_append_stats
+    previous_task = run_update_is_currently_qualified_field
 
 

@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libxml2-dev \
     libpq-dev 
-RUN Rscript -e "install.packages(c('baseballr', 'dplyr', 'tidyr', 'lubridate', 'progressr', 'stringr', 'readr', 'DBI', 'RPostgres'), repos='https://cloud.r-project.org')"
+RUN Rscript -e "install.packages(c('baseballr', 'dplyr', 'tidyr', 'lubridate', 'progressr', 'stringr', 'readr', 'DBI', 'RPostgres', 'purrr'), repos='https://cloud.r-project.org')"
 
 COPY requirements.txt .
 
