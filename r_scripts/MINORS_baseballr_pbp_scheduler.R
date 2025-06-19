@@ -306,9 +306,7 @@ for (current_date in date_sequence) {
 
   sport_ids <- c(11, 12, 13, 14, 16)
 
-  all_mlb_teams <- map_dfr(sport_ids, ~ mlb_teams(season = year, sport_ids = .x)) %>% #nolint
-    distinct(team_id) %>%
-    arrange(team_id)
+  all_mlb_teams <- map_dfr(sport_ids, ~ mlb_teams(season = year, sport_ids = .x)) 
 
   all_mlb_teams <- as.data.frame(all_mlb_teams)
 
