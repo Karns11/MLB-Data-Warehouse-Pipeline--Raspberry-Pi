@@ -30,7 +30,7 @@ dag = DAG(
     'run_baseballr_etl_pipeline_daily',
     default_args=default_args,
     description='Run an R script every day at 10AM',
-    schedule_interval='0 14 * * *',  #None
+    schedule_interval='0 14 * * *',  #None, #
     start_date=datetime(2025, 6, 14),
     catchup=False,
     tags=['rscript'],
@@ -38,10 +38,10 @@ dag = DAG(
 
 
 # --- CONFIG ---
-BACKFILL_FLAG = 1
+BACKFILL_FLAG = 0
 
-START_DATE = datetime.strptime("2025-03-27", "%Y-%m-%d") # 03-20 then 03-28 then #07-19
-END_DATE = datetime.strptime("2025-04-10", "%Y-%m-%d") # 03-21 then 07-14 then #09-30
+START_DATE = datetime.strptime("2025-05-02", "%Y-%m-%d") # 03-20 then 03-28 then #07-19
+END_DATE = datetime.strptime("2025-06-21", "%Y-%m-%d") # 03-21 then 07-14 then #09-30
 
 date_range = [
     (START_DATE + timedelta(days=i)).strftime("%Y-%m-%d")

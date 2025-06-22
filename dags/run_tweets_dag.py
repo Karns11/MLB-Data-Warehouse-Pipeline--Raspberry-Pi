@@ -58,7 +58,7 @@ def tweet_triple_crown_watch():
             WHEN fact.pa >= 3.1 * fact_team_gp.gp THEN 1
             ELSE 0
         END = 1)
-    ORDER BY fact.batting_avg DESC
+		AND dim_team.league_name IN ('American League', 'National League')
     """
 
 
@@ -205,7 +205,7 @@ dag = DAG(
     'run_tweetpy_script',
     default_args=default_args,
     description='Run python script to tweet triple crown watch every day at 11 am',
-    schedule_interval='0 15 * * *', #None
+    schedule_interval='0 15 * * *', #None, #
     start_date=datetime(2025, 6, 17),
     catchup=False
 )
