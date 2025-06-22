@@ -38,10 +38,10 @@ dag = DAG(
 
 
 # --- CONFIG ---
-BACKFILL_FLAG = 0
+BACKFILL_FLAG = 1
 
-START_DATE = datetime.strptime("2025-06-14", "%Y-%m-%d") # 03-20 then 03-28 then #07-19
-END_DATE = datetime.strptime("2025-06-17", "%Y-%m-%d") # 03-21 then 07-14 then #09-30
+START_DATE = datetime.strptime("2025-03-27", "%Y-%m-%d") # 03-20 then 03-28 then #07-19
+END_DATE = datetime.strptime("2025-04-10", "%Y-%m-%d") # 03-21 then 07-14 then #09-30
 
 date_range = [
     (START_DATE + timedelta(days=i)).strftime("%Y-%m-%d")

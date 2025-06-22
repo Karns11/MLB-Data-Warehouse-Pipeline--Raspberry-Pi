@@ -8,6 +8,7 @@ library(stringr)
 library(readr)
 library(DBI)
 library(RPostgres)
+library(purrr)
 
 args <- commandArgs(trailingOnly = TRUE)
 
@@ -42,7 +43,7 @@ year <- year(passed_processdate)
 
 print("Obtaining all regular season games for current year...")
 payload_all_games_schedule <- purrr::map_df(.x = year,
-                                            ~baseballr::mlb_schedule(season = .x, level_ids = "1")) # nolint
+                                            ~baseballr::mlb_schedule(season = .x, level_ids = c(11, 12, 13, 14, 16, 1))) # nolint
 
 all_possible_processdates <- payload_all_games_schedule %>%
   filter(season == year) %>%
@@ -172,7 +173,7 @@ for (current_date in date_sequence) {
 
   #Grab all games for the given year, using mlb_schedule
   payload_all_games_schedule <- purrr::map_df(.x = year,
-                                              ~baseballr::mlb_schedule(season = .x, level_ids = "1")) # nolint
+                                              ~baseballr::mlb_schedule(season = .x, level_ids = c(11, 12, 13, 14, 16, 1))) # nolint
 
   #Filter where season = current year
   entire_schedule_this_year <- payload_all_games_schedule %>%
@@ -195,10 +196,9 @@ for (current_date in date_sequence) {
     filter(as.Date(date) == current_date)
 
   ###Get each distinct team_id's for the given year using mlb_team
-  distinct_teams <- mlb_teams(
-    season = year,
-    sport_ids = c(1)
-  ) %>%
+  sport_ids <- c(11, 12, 13, 14, 16, 1)
+  
+  distinct_teams <- map_dfr(sport_ids, ~ mlb_teams(season = year, sport_ids = .x)) %>%
     distinct(team_id) %>%
     arrange(team_id)
 
@@ -258,7 +258,6 @@ for (current_date in date_sequence) {
     distinct(matchup_pitcher_id, fielding_team) %>%
     dplyr::rename("player_id" = "matchup_pitcher_id",
                   "team" = "fielding_team")
-
   players_list_df <- rbind(batter_ids_df, pitcher_ids_df)
 
 
@@ -276,7 +275,13 @@ for (current_date in date_sequence) {
     "pitch_hand_code", "pitch_hand_description"
   )
 
-  mlb_people_result_df <- mlb_people(person_ids  = players_list_df$player_id)
+  player_id_chunks <- split(players_list_df$player_id, ceiling(seq_along(players_list_df$player_id) / 100)) #nolint
+
+  # Safely fetch people data in chunks
+  mlb_people_result_df <- map_dfr(player_id_chunks, function(chunk) {
+    Sys.sleep(0.01)  # be nice to the API
+    baseballr::mlb_people(person_ids = chunk)
+  })
 
   mlb_people_result_df <- mlb_people_result_df[, mlb_people_column_names] # nolint
 
@@ -300,10 +305,9 @@ for (current_date in date_sequence) {
   print(paste("finished PEOPLE DATA iteration for:", current_date))
 
 
-  all_mlb_teams <- mlb_teams(
-    season = year,
-    sport_ids = 1
-  )
+  sport_ids <- c(11, 12, 13, 14, 16, 1)
+
+  all_mlb_teams <- map_dfr(sport_ids, ~ mlb_teams(season = year, sport_ids = .x)) #nolint
 
   all_mlb_teams <- as.data.frame(all_mlb_teams)
 
