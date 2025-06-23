@@ -29,8 +29,8 @@ default_args = {
 dag = DAG(
     'run_baseballr_etl_pipeline_daily',
     default_args=default_args,
-    description='Run an R script every day at 10AM',
-    schedule_interval='0 14 * * *',  #None, #
+    description='Run an R script every day at 9AM',
+    schedule_interval='0 13 * * *',  #None, #
     start_date=datetime(2025, 6, 14),
     catchup=False,
     tags=['rscript'],
